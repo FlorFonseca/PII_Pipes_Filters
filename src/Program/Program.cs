@@ -63,7 +63,7 @@ namespace CompAndDel
             IFilter negative = new FilterNegative();
 
             IPipe pipeserial2 = new PipeSerial(negative, pipeserial1);
-            image = pipeserial1.Send(image);
+            image = pipeserial2.Send(image);
 
             provider.SavePicture(image, "LukeEditado.jpg");
 
