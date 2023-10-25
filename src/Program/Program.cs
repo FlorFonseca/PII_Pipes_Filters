@@ -17,7 +17,7 @@ namespace CompAndDel
         //     IPipe pipenull = new PipeNull ();
         //     image = pipenull.Send(image);
         //     IFilter blur = new FilterNegative();
-            
+
         //     IPipe pipeserial1 = new PipeSerial(blur, pipenull);
         //     image = pipeserial1.Send(image);
         //     IFilter negative = new FilterGreyscale();
@@ -36,7 +36,7 @@ namespace CompAndDel
         //     IPipe pipenull = new PipeNull ();
         //     image = pipenull.Send(image);
         //     IFilter blur = new FilterBlurConvolution();
-            
+
         //     IPipe pipeserial1 = new PipeSerial(blur, pipenull);
         //     image = pipeserial1.Send(image);
         //     IFilter negative = new FilterNegative();
@@ -50,27 +50,53 @@ namespace CompAndDel
 
 
         // }
+        //  EJERCICIO 3
+        // {
+        //     PictureProvider provider = new PictureProvider();
+        //     IPicture image = provider.GetPicture(@"luke.jpg");
+
+        //     IPipe pipenull = new PipeNull ();
+        //     image = pipenull.Send(image);
+        //     IFilter blur = new FilterBlurConvolution();
+
+        //     IPipe pipeserial1 = new PipeSerial(blur, pipenull);
+        //     image = pipeserial1.Send(image);
+        //     IFilter negative = new FilterNegative();
+
+        //     IPipe pipeserial2 = new PipeSerial(negative, pipeserial1);
+        //     image = pipeserial2.Send(image);
+
+        //     provider.SavePicture(image, "LukeEditado.jpg");
+
+
+        //     TwitterFilter twitterFilter = new TwitterFilter();
+        //     twitterFilter.Filter(image);
+        //}
+        //  EJERCICIO 4
         {
             PictureProvider provider = new PictureProvider();
             IPicture image = provider.GetPicture(@"luke.jpg");
+            ConditionalFilter conditionalFilter = new ConditionalFilter();
+
 
             IPipe pipenull = new PipeNull ();
-            image = pipenull.Send(image);
-            IFilter blur = new FilterBlurConvolution();
-            
-            IPipe pipeserial1 = new PipeSerial(blur, pipenull);
-            image = pipeserial1.Send(image);
-            IFilter negative = new FilterNegative();
 
+            IFilter blur = new FilterBlurConvolution();
+            IPipe pipeserial1 = new PipeSerial(blur, pipenull);
+
+            IFilter negative = new FilterNegative();
             IPipe pipeserial2 = new PipeSerial(negative, pipeserial1);
-            image = pipeserial2.Send(image);
+            
+
+            IPipe pipeFork = new PipeFork(conditionalFilter, pipeserial1, pipeserial2);
+            image = pipeFork.Send(image);
+            
 
             provider.SavePicture(image, "LukeEditado.jpg");
 
-            IPicture Post = provider.GetPicture(@"LukeEditado.jpg");
-            TwitterImage twitter = new TwitterImage();
-            //twitter.PublishToTwitter("Mira esta imágen!",@"LukeEditado.jpg");
-            Console.WriteLine(twitter.PublishToTwitter("Mira esta imágen!",@"LukeEditado.jpg"));
+
+            TwitterFilter twitterFilter = new TwitterFilter();
+            twitterFilter.Filter(image);
 
             
         }
