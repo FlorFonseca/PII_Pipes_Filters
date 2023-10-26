@@ -46,10 +46,8 @@ namespace CompAndDel
 
         //     PictureProvider p = new PictureProvider();
         //     p.SavePicture(image, "LukeEditado.jpg");
-
-
-
         // }
+
         //  EJERCICIO 3
         // {
         //     PictureProvider provider = new PictureProvider();
@@ -72,31 +70,29 @@ namespace CompAndDel
         //     TwitterFilter twitterFilter = new TwitterFilter();
         //     twitterFilter.Filter(image);
         //}
+
         //  EJERCICIO 4
         {
             PictureProvider provider = new PictureProvider();
-            IPicture image = provider.GetPicture(@"luke.jpg");
+            IPicture image = provider.GetPicture(@"beer.jpg");
             ConditionalFilter conditionalFilter = new ConditionalFilter();
-
+            TwitterFilter twitterFilter = new TwitterFilter();
 
             IPipe pipenull = new PipeNull ();
 
             IFilter blur = new FilterBlurConvolution();
-            IPipe pipeserial1 = new PipeSerial(blur, pipenull);
+            IPipe pipeserial1 = new PipeSerial(twitterFilter, pipenull);
 
             IFilter negative = new FilterNegative();
-            IPipe pipeserial2 = new PipeSerial(negative, pipeserial1);
+            IPipe pipeserial2 = new PipeSerial(negative, pipenull);
             
 
             IPipe pipeFork = new PipeFork(conditionalFilter, pipeserial1, pipeserial2);
             image = pipeFork.Send(image);
             
 
-            provider.SavePicture(image, "LukeEditado.jpg");
+            provider.SavePicture(image, "BeerEditado.jpg");
 
-
-            TwitterFilter twitterFilter = new TwitterFilter();
-            twitterFilter.Filter(image);
 
             
         }
