@@ -74,7 +74,7 @@ namespace CompAndDel
         //  EJERCICIO 4
         {
             PictureProvider provider = new PictureProvider();
-            IPicture image = provider.GetPicture(@"beer.jpg");
+            IPicture image = provider.GetPicture(@"luke.jpg");
             ConditionalFilter conditionalFilter = new ConditionalFilter();
             TwitterFilter twitterFilter = new TwitterFilter();
 
@@ -91,8 +91,7 @@ namespace CompAndDel
             image = pipeFork.Send(image);
             
 
-            provider.SavePicture(image, "BeerEditado.jpg");
-
+            provider.SavePicture(image, "LukeEditado.jpg");
 
             
         }
